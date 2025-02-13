@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.tmbxgidel.masksensitivedata.utils">
+    <Properties>
+        <Property name="base.log.dir">./logs</Property>
+        <Property name="appenderPatternLayout">%d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'} %-5p %-15c{1}  [%X{Correlation-ID}] : %spi%n</Property>
+        <Property name="maxLogFileSize">10 MB</Property>
+        <Property name="maxLogFiles">2</Property>
+    </Properties>
+    <Appenders>
+        <Console name="CONSOLELOG" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${appenderPatternLayout}"/>
+        </Console>
+        <RollingFile name="APPLOGFILE" fileName="${base.log.dir}/app.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${appenderPatternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxLogFileSize}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxLogFiles}"/>
+        </RollingFile>
+        <RollingFile name="SYSLOGFILE" fileName="${base.log.dir}/sys.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${appenderPatternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxLogFileSize}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxLogFiles}"/>
+        </RollingFile>
+        <RollingFile name="AUDITLOGFILE" fileName="${base.log.dir}/audit_errors/audit_errors.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${appenderPatternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxLogFileSize}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxLogFiles}"/>
+        </RollingFile>
+        <RollingFile name="AUDITFORWARDLOGFILE"
+                     fileName="${base.log.dir}/audit_forward_errors/audit_forward_errors.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${appenderPatternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxLogFileSize}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxLogFiles}"/>
+        </RollingFile>
+        <RollingFile name="PERFLOGFILE"
+                     fileName="${base.log.dir}/perf.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${appenderPatternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${maxLogFileSize}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${maxLogFiles}"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!-- ******************************************* -->
+        <!-- application categories                      -->
+        <!-- ******************************************* -->
+        <Logger name="com.tmbxgidel.masksensitivedata" level="INFO">
+            <AppenderRef ref="APPLOGFILE"/>
+            <AppenderRef ref="SYSLOGFILE"/>
+            <AppenderRef ref="CONSOLELOG" />
+        </Logger>
+        
+        <!-- ******************************************* -->
+        <!-- application categories                      -->
+        <!-- ******************************************* -->
+        <Logger name="com.tmbxgidel.masksensitivedata" level="ERROR">
+            <AppenderRef ref="APPLOGFILE"/>
+            <AppenderRef ref="SYSLOGFILE"/>
+            <AppenderRef ref="CONSOLELOG" />
+        </Logger>
+        
+        <!-- ******************************************* -->
+        <!-- application categories                      -->
+        <!-- adding only error since bug in spring fox   -->
+        <!-- ******************************************* -->
+        <Logger name="io.swagger.models.parameters.AbstractSerializableParameter" level="ERROR">
+            <AppenderRef ref="APPLOGFILE"/>
+            <AppenderRef ref="SYSLOGFILE"/>
+            <AppenderRef ref="CONSOLELOG" />
+        </Logger>
+        
+        <!-- ******************************************* -->
+        <!-- audit log categories                      -->
+        <!-- ******************************************* -->
+        <Logger name="com.tmbxgidel.masksensitivedata" level="INFO" additivity="false">
+            <AppenderRef ref="AUDITLOGFILE"/>
+        </Logger>
+        <!-- ******************************************* -->
+        <!-- audit forward log categories                      -->
+        <!-- ******************************************* -->
+        <Logger name="com.tmbxgidel.masksensitivedata" level="INFO"
+                additivity="false">
+            <AppenderRef ref="AUDITFORWARDLOGFILE"/>
+        </Logger>
+        <!-- ********************************************* -->
+        <!-- Setup the loggers for the performance metrics -->
+        <!-- ********************************************* -->
+        <Logger name="com.tmbxgidel.masksensitivedata" level="INFO" additivity="false">
+            <AppenderRef ref="APPLOGFILE"/>
+            <AppenderRef ref="CONSOLELOG" />
+        </Logger>
+        <logger name="PerfLog" level="INFO">
+            <AppenderRef ref="PERFLOGFILE"/>
+            <AppenderRef ref="CONSOLELOG" />
+        </logger>
+        <Root level="INFO">
+            <AppenderRef ref="APPLOGFILE"/>
+            <AppenderRef ref="CONSOLELOG" />
+        </Root>
+    </Loggers>
+</Configuration>

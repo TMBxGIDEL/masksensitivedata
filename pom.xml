@@ -11,7 +11,7 @@
     <groupId>io.github.tmbxgidel</groupId>
     <artifactId>mask-sensitive-data</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0-alpha</version>
+    <version>1.0.0-alpha-SNAPSHOT</version>
     <name>mask-sensitive-data</name>
     <description>Project to mask sensitive data</description>
     <url>https://github.com/TMBxGIDEL/masksensitivedata</url>

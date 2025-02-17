@@ -27,7 +27,7 @@ public class MaskSensitiveDataUtils extends LogEventPatternConverter {
 
     private static final boolean MASKING_ENABLED = PropertiesUtil.getProperties().getBooleanProperty("logging.maskSensitiveData", true);
 
-    protected MaskSensitiveDataUtils(String name, String  threadName) {
+    protected MaskSensitiveDataUtils(String name, String threadName) {
         super(name, threadName);
     }
 
